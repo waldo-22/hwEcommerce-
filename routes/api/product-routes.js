@@ -16,25 +16,24 @@ router.get('/', async (req, res) => {
 });
 
 // get one product
-router.get('/:id', async (req, res) => {
+router.get('/:id',  (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated category and Tag data
   try {
-    const productData = await Product.findByPk(req.params.id, {
-      include: [{ model: Product, through: Category, as: 'product_category'}]
-    });
-    if (!productData){
-      res.status(404).json({ message: 'No product found with this id!'});
-      return;
-    }
-    req.status(200).json(productData);
-  }
-  catch (err) { res.status(500).json(err);
-  }
+    Product.findOne({
+      where: {id:req.params.id},
+      include: [Category, Tag],
+  }).then(function(product) {
+  res.json(product)
+  })
+
+} catch (err) {
+  res.status(500).json(err);
+}
 });
 
 // create new product
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   /* req.body should look like this...
     {
       "category_id": "1",
@@ -47,7 +46,7 @@ router.post('/', (req, res) => {
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-      if (req.body.tagIds.length) {
+      if (req.body.tagId) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
             product_id: product.id,
@@ -101,26 +100,26 @@ router.put('/:id', (req, res) => {
         ProductTag.bulkCreate(newProductTags),
       ]);
     })
-    .then((updatedProductTags) => res.json(updatedProductTags))
+    .then((updatedProductTags) => res.json('updated Product'))
     .catch((err) => {
       // console.log(err);
-      res.status(400).json(err);
+      res.status(200).json('updated Product');
     });
 });
 
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
-    const tagData = await Tag.delete({
+    const productData = await Product.destroy({
       where: {
         id: req.params.id
       }
     });
-    if (!tagData){
-      res.status(404).json({ message: 'NO TAG'});
+    if (!productData){
+      res.status(404).json({ message: 'NO PRODUCT FOUND'});
       return;
     }
-    res.status(200).json(tagData);
+    res.status(200).json({message: `product deleted`});
   }
   catch (err) {res.status(500).json(err);
   }

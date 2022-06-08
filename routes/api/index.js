@@ -8,3 +8,5 @@ router.use('/products', productRoutes);
 router.use('/tags', tagRoutes);
 
 module.exports = router;
+// insomnia vid should include categories products and tags
+// npm run start
