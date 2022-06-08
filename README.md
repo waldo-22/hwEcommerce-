@@ -10,7 +10,7 @@ Please code responsibly
 ## walkthrough:
 https://user-images.githubusercontent.com/101441650/172528617-f458458b-b72c-47dc-8e1c-00751f59a8d4.mp4
 ## Installation:
-(1) Go to my GitHub page "waldo-22" and navigate to "readmeGenerator" repository. (2) Copy zip of repository code. (3) In VS Code make a new directory and paste in copied zip.
+(1) Go to my GitHub page "waldo-22" and navigate to "hwEcommerce" repository. (2) Copy zip of repository code. (3) In VS Code make a new directory and paste in copied zip. (4) Open insomnia and run on said port (port 3001)
 ## Usage:
 Refer to video example.
 ## Credits:
